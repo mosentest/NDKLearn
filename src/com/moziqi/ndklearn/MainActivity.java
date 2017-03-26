@@ -1,6 +1,9 @@
 package com.moziqi.ndklearn;
 
+import java.util.concurrent.Executors;
+
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,12 +15,27 @@ public class MainActivity extends Activity {
 		System.loadLibrary("NDKLearn");
 	}
 
+	private AsyncTask<Void, Void, String> mAsyncTask = null;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		String str = JniTest.AddStr("test", "test");
-		Toast.makeText(getApplicationContext(), str + "", Toast.LENGTH_SHORT).show();
+		mAsyncTask = new AsyncTask<Void, Void, String>() {
+
+			@Override
+			protected String doInBackground(Void... params) {
+				String str = JniTest.AddStr("test", "test");
+				return str;
+			}
+
+			@Override
+			protected void onPostExecute(String result) {
+				super.onPostExecute(result);
+				Toast.makeText(getApplicationContext(), result + "", Toast.LENGTH_SHORT).show();
+			}
+		};
+		mAsyncTask.executeOnExecutor(Executors.newCachedThreadPool());
 	}
 
 	@Override

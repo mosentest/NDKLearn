@@ -12,9 +12,13 @@ extern "C" {
  * Signature: (Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
  */
 JNIEXPORT jstring JNICALL Java_com_moziqi_ndklearn_JniTest_AddStr(JNIEnv * env,
-		jclass arg, jstring a, jstring b) {
+		jclass obj, jstring jst1, jstring jst2) {
 	jstring str = (*env)->NewStringUTF(env, "HelloWorld from JNI !");
-	return str;
+	LOGE("aaaa");
+	const char *str1 = (*env)->GetStringUTFChars(env, jst1, 0);
+	const char *str2 = (*env)->GetStringUTFChars(env, jst2, 0);
+	jstring result = (*env)->NewStringUTF(env, str1);
+	return result;
 }
 
 /*
@@ -23,7 +27,7 @@ JNIEXPORT jstring JNICALL Java_com_moziqi_ndklearn_JniTest_AddStr(JNIEnv * env,
  * Signature: (II)I
  */
 JNIEXPORT jint JNICALL Java_com_moziqi_ndklearn_JniTest_AddInt(JNIEnv * env,
-		jclass arg, jint a, jint b) {
+		jclass obj, jint jint1, jint jint2) {
 	return 1;
 }
 
