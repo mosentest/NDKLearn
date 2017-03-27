@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include "com_moziqi_ndklearn_JniTest.h"
+#include "com_moziqi_ndk_utils.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -18,6 +19,16 @@ JNIEXPORT jstring JNICALL Java_com_moziqi_ndklearn_JniTest_AddStr(JNIEnv * env,
 	const char *str1 = (*env)->GetStringUTFChars(env, jst1, 0);
 	const char *str2 = (*env)->GetStringUTFChars(env, jst2, 0);
 	jstring result = (*env)->NewStringUTF(env, str1);
+	//释放内存
+	(*env)->ReleaseStringUTFChars(env, jst1, str1);
+	(*env)->ReleaseStringUTFChars(env, jst2, str2);
+	//jintArray
+	jintArray javaArray;
+	javaArray = (*env)->NewIntArray(env, 10);
+	if (0 != javaArray) {
+		LOGE("aaaa");
+	}
+
 	return result;
 }
 
